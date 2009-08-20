@@ -6,9 +6,7 @@
  	<Content type="html">
     <![CDATA[
     	<script src="http://github.com/viniciusv/forca/raw/2b1c6ed7be20434c20e94a804c5a5b08d2530c45/forca.js"></script>
-	    <script>
-	    	gadgets.util.registerOnLoadHandler(init);
-	   	</script>
+	    <script>gadgets.util.registerOnLoadHandler(init);</script>
 	    <h1>Jogo da Forca</h1>
 		<p>
 			<input type="button" value="novo jogo" onclick="jogo.novo();">
