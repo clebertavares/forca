@@ -1,0 +1,254 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>JogoDaForca Testes</title>
+	<script type="text/javascript" src="http://yui.yahooapis.com/3.0.0b1/build/yui/yui-min.js"></script>
+	<script type="text/javascript" src="forca.js"></script>
+</head>
+
+<body class=" yui-skin-sam">
+	<div id="testLogger"></div>
+	<script type="text/javascript">
+	
+YUI().use('node', 'console', 'test', function(Y) {
+	
+    var GeradorTest= new Y.Test.Case({
+		name: 'GeradorTest',
+		
+		testDeveGerarUmaPalavra: function() {
+			gerador= new Gerador();
+			palavra= gerador.meDeUmaPalavra();
+			Y.Assert.isNotNull(palavra);
+			Y.Assert.isString(palavra);
+		}
+	});
+	
+	var OcultadorTest= new Y.Test.Case({
+		name: 'OcultadorTest',
+		
+		setUp: function() {
+			visivel= document.createElement("span");
+			visivel.setAttribute('id', 'visivel');
+			visivel.setAttribute('style', 'display:none;');
+			document.body.appendChild(visivel);
+		},
+		
+		testDeveOcultarUmaPalavra: function() {
+			ocultador= new Ocultador();
+			ocultador.ocultar('DWIGHT');
+			Y.Assert.areEqual('______', Y.get('#visivel').get('innerHTML'));
+		},
+		
+		testDeveRevelarUmaLetra: function() {
+			ocultador= new Ocultador();
+			ocultador.ocultar('PAM')
+			Y.Assert.isTrue(ocultador.revela('A'));
+			Y.Assert.areEqual('_A_', Y.get('#visivel').get('innerHTML'));
+		},
+		
+		testNaoDeveRevelarUmaLetra: function() {
+			ocultador= new Ocultador();
+			ocultador.ocultar('PAM')
+			Y.Assert.isFalse(ocultador.revela('K'));
+			Y.Assert.areEqual('___', Y.get('#visivel').get('innerHTML'));
+		}, 
+		
+		testDeveVerificarSeAPalavraFoiRevelada: function() {
+			ocultador= new Ocultador();
+			ocultador.ocultar('JIM');
+			Y.Assert.isFalse(ocultador.revelouTudo());
+			
+			ocultador.revela('J');
+			ocultador.revela('I');
+			ocultador.revela('M');
+			Y.Assert.isTrue(ocultador.revelouTudo());
+		}
+	});
+	
+	var ImagemTest= new Y.Test.Case({
+		name: 'ImagemTest',
+		
+		setUp: function() {
+			img= document.createElement("img");
+			img.setAttribute('id', 'imagem');
+			img.setAttribute('src', '');
+			img.setAttribute('style', 'display:none;');
+			document.body.appendChild(img);
+		},
+		
+		testDeveExibirAPrimeiraImagem: function() {
+			imagem= new Imagem();
+			imagem.exibe();
+			Y.Assert.isNotNull(Y.get('#imagem').get('src').match(/0.jpg$/));
+		},
+		
+		testDeveExibirAProximaImagem: function() {
+			imagem= new Imagem();
+			imagem.exibe();
+			imagem.exibeProxima();
+			Y.Assert.isNotNull(Y.get('#imagem').get('src').match(/1.jpg$/));
+		}
+	});
+	
+	var JogoDaForcaTest= new Y.Test.Case({
+		name: 'JogoDaForcaTest',
+		
+		testDeveIniciarUmNovoJogo: function() {
+			gerador= Y.Mock();
+			ocultador= Y.Mock();
+			imagem= Y.Mock();
+
+			Y.Mock.expect(gerador, {
+				method: 'meDeUmaPalavra',
+				returns: 'DWIGHT'                            
+			});
+			
+			Y.Mock.expect(ocultador, {
+				method: 'ocultar',
+				args: ['DWIGHT']
+			});
+			
+			Y.Mock.expect(imagem, {
+				method: 'exibe'
+			});
+			
+			jogo= new JogoDaForca(gerador, ocultador, imagem);
+			jogo.novo();
+			
+			Y.Mock.verify(gerador);
+			Y.Mock.verify(ocultador);
+			Y.Mock.verify(imagem);
+		},
+		
+		testPalpiteFeliz: function() {
+			gerador= Y.Mock();
+			ocultador= Y.Mock();
+			imagem= Y.Mock();
+			
+			Y.Mock.expect(ocultador, {
+				method: 'revela',
+				args: ['W'],
+				returns: true
+			});
+			
+			Y.Mock.expect(ocultador, {
+				method: 'revelouTudo',
+				returns: false
+			});
+			
+			jogo= new JogoDaForca(gerador, ocultador, imagem);
+			jogo.palpite('W');
+			
+			Y.Mock.verify(ocultador);
+		},
+		
+		testPalpiteInfeliz: function() {
+			gerador= Y.Mock();
+			ocultador= Y.Mock();
+			imagem= Y.Mock();
+			
+			Y.Mock.expect(ocultador, {
+				method: 'revela',
+				args: ['K'],
+				returns: false
+			});
+			
+			Y.Mock.expect(imagem, {
+				method: 'exibeProxima'
+			});
+			
+			jogo= new JogoDaForca(gerador, ocultador, imagem);
+			jogo.palpite('K');
+			
+			Y.Mock.verify(ocultador);
+			Y.Mock.verify(imagem);
+		},
+		
+		testVitoria: function() {
+			gerador= Y.Mock();
+			ocultador= Y.Mock();
+			imagem= Y.Mock();
+			
+			Y.Mock.expect(ocultador, {
+				method: 'revela',
+				args: ['W'],
+				returns: true
+			});
+			
+			Y.Mock.expect(ocultador, {
+				method: 'revelouTudo',
+				returns: true
+			});
+			
+			jogo= new JogoDaForca(gerador, ocultador, imagem);
+			jogo.palpite('W');
+			
+			Y.Mock.verify(ocultador);
+		},
+		
+		testDerrota: function() {
+			gerador= Y.Mock();
+			ocultador= Y.Mock();
+			imagem= Y.Mock();
+
+			Y.Mock.expect(gerador, {
+				method: 'meDeUmaPalavra',
+				returns: 'DWIGHT'                            
+			});
+			
+			Y.Mock.expect(ocultador, {
+				method: 'ocultar',
+				args: ['DWIGHT']
+			});
+			
+			Y.Mock.expect(imagem, {
+				method: 'exibe'
+			});
+			
+			Y.Mock.expect(ocultador, {
+				method: 'revela',
+				args: [Y.Mock.Value.String],
+				returns: false,
+				callCount: 6
+			});
+			
+			Y.Mock.expect(imagem, {
+				method: 'exibeProxima',
+				callCount: 6
+			});
+			
+			jogo= new JogoDaForca(gerador, ocultador, imagem);
+			jogo.novo();
+			jogo.palpite('K');
+			jogo.palpite('Z');
+			jogo.palpite('Y');
+			jogo.palpite('Q');
+			jogo.palpite('U');
+			jogo.palpite('B');
+			
+			Y.Mock.verify(ocultador);
+			Y.Mock.verify(imagem);
+		}
+	});	
+	
+    suite = new Y.Test.Suite('jogo da forca test suite');
+    suite.add(GeradorTest);
+	suite.add(OcultadorTest);
+	suite.add(ImagemTest);
+	suite.add(JogoDaForcaTest);
+	
+    r= new Y.Console({
+        verbose : true,
+        newestOnTop : false
+    });
+    r.render('#testLogger');
+
+    Y.Test.Runner.add(suite);
+    Y.Test.Runner.run();
+});
+
+</script>
+</body>
+</html>
