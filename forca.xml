@@ -5,7 +5,7 @@
   	</ModulePrefs>
  	<Content type="html">
     <![CDATA[
-    	<script src="http://github.com/viniciusv/forca/raw/2b1c6ed7be20434c20e94a804c5a5b08d2530c45/forca.js"></script>
+    	<script src="http://github.com/viniciusv/forca/raw/7f574432f517df09b32004b2d415a1d50f284e82/forca.js"></script>
 	    <script>init();</script>
 	    <h1>Jogo da Forca</h1>
 		<p>
