@@ -45,7 +45,7 @@ var Gerador= function() {
 
 var Imagem= function() {
 	var numero;
-	var arquivo= 'images/#.jpg';
+	var arquivo='http://github.com/viniciusv/forca/raw/cef595826ef56d125b93a419e6fd4ec3604fc8a2/images/#.jpg';
 	
 	this.exibe= function() {
 		document.getElementById('imagem').src= arquivo.replace('#', numero=0);
