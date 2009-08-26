@@ -5,8 +5,7 @@
   	</ModulePrefs>
  	<Content type="html">
     <![CDATA[
-    	<script src="http://github.com/viniciusv/forca/raw/7f574432f517df09b32004b2d415a1d50f284e82/forca.js"></script>
-	    <script>init();</script>
+    	<script src="forca.js"></script>
 	    <h1>Jogo da Forca</h1>
 		<p>
 			<input type="button" value="novo jogo" onclick="jogo.novo();">

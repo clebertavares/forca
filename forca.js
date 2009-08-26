@@ -45,7 +45,7 @@ var Gerador= function() {
 
 var Imagem= function() {
 	var numero;
-	var arquivo='http://github.com/viniciusv/forca/raw/cef595826ef56d125b93a419e6fd4ec3604fc8a2/images/#.jpg';
+	var arquivo='images/#.jpg';
 	
 	this.exibe= function() {
 		document.getElementById('imagem').src= arquivo.replace('#', numero=0);
@@ -97,11 +97,7 @@ var Ocultador= function() {
 	};
 };
 
-var jogo;
-
-function init() {
-	gerador= new Gerador();
-	ocultador= new Ocultador();
-	imagem= new Imagem();
-	jogo= new JogoDaForca(gerador, ocultador, imagem); 
-}
+gerador= new Gerador();
+ocultador= new Ocultador();
+imagem= new Imagem();
+var jogo= new JogoDaForca(gerador, ocultador, imagem); 
