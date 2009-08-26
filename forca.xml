@@ -43,12 +43,14 @@
 						<td><a href="javascript:void(0);" onclick="jogo.palpite('Q');">Q</a></td>
 						<td><a href="javascript:void(0);" onclick="jogo.palpite('R');">R</a></td>
 						<td><a href="javascript:void(0);" onclick="jogo.palpite('S');">S</a></td>
-					</tr>
-					<tr>
 						<td><a href="javascript:void(0);" onclick="jogo.palpite('T');">T</a></td>
+					</tr>
+					<tr>					
 						<td><a href="javascript:void(0);" onclick="jogo.palpite('U');">U</a></td>
 						<td><a href="javascript:void(0);" onclick="jogo.palpite('V');">V</a></td>
+						<td><a href="javascript:void(0);" onclick="jogo.palpite('W');">W</a></td>
 						<td><a href="javascript:void(0);" onclick="jogo.palpite('X');">X</a></td>
+						<td><a href="javascript:void(0);" onclick="jogo.palpite('Y');">Y</a></td>
 						<td><a href="javascript:void(0);" onclick="jogo.palpite('Z');">Z</a></td>
 					</tr>
 				</table>
