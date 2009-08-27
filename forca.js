@@ -45,7 +45,7 @@ var Gerador= function() {
 
 var Imagem= function() {
 	var numero;
-	var arquivo='images/#.jpg';
+	var arquivo='http://www.inf.pucrs.br/~ai190536/forca/images/#.jpg';
 	
 	this.exibe= function() {
 		document.getElementById('imagem').src= arquivo.replace('#', numero=0);
