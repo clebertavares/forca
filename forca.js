@@ -1,7 +1,11 @@
 //jogo da forca
-//to-do: desabilitar letras ja clicadas pra impedir progresso da forca
-//to-do: dasabilitar letras apos vitoria ou derrota
-//to-do: painel de status: chances, vitoria, derrota, etc.
+//to-do: 
+//desabilitar letras ja clicadas pra impedir progresso da forca (algum css)
+//dasabilitar letras apos vitoria ou derrota
+//painel de status: chances, vitoria, derrota, etc. (tirar os alerts toscos!)
+//'novo jogo' de botao para link
+//fases: niveis de dificuldade por numero de letras
+//categorias (coisas nerds)
 
 var JogoDaForca= function(_gerador, _ocultador, _imagem) {
 	var gerador= _gerador;
