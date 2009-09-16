@@ -29,30 +29,30 @@ YUI().use('node', 'console', 'test', function(Y) {
 		name: 'OcultadorTest',
 		
 		setUp: function() {
-			visivel= document.createElement("span");
-			visivel.setAttribute('id', 'visivel');
-			visivel.setAttribute('style', 'display:none;');
-			document.body.appendChild(visivel);
+			palavraOculta= document.createElement("span");
+			palavraOculta.setAttribute('id', 'palavra_oculta');
+			palavraOculta.setAttribute('style', 'display:none;');
+			document.body.appendChild(palavraOculta);
 		},
 		
 		testDeveOcultarUmaPalavra: function() {
 			ocultador= new Ocultador();
 			ocultador.ocultar('DWIGHT');
-			Y.Assert.areEqual('______', Y.get('#visivel').get('innerHTML'));
+			Y.Assert.areEqual('______', Y.get('#palavra_oculta').get('innerHTML'));
 		},
 		
 		testDeveRevelarUmaLetra: function() {
 			ocultador= new Ocultador();
 			ocultador.ocultar('PAM')
 			Y.Assert.isTrue(ocultador.revela('A'));
-			Y.Assert.areEqual('_A_', Y.get('#visivel').get('innerHTML'));
+			Y.Assert.areEqual('_A_', Y.get('#palavra_oculta').get('innerHTML'));
 		},
 		
 		testNaoDeveRevelarUmaLetra: function() {
 			ocultador= new Ocultador();
 			ocultador.ocultar('PAM')
 			Y.Assert.isFalse(ocultador.revela('K'));
-			Y.Assert.areEqual('___', Y.get('#visivel').get('innerHTML'));
+			Y.Assert.areEqual('___', Y.get('#palavra_oculta').get('innerHTML'));
 		}, 
 		
 		testDeveVerificarSeAPalavraFoiRevelada: function() {
@@ -95,141 +95,166 @@ YUI().use('node', 'console', 'test', function(Y) {
 	var JogoDaForcaTest= new Y.Test.Case({
 		name: 'JogoDaForcaTest',
 		
+		setUp: function() {
+			div= document.createElement("div");
+			div.setAttribute('id', 'area_do_jogo');
+			div.setAttribute('style', 'display:none;');
+			document.body.appendChild(div);
+			
+			this.gerador= Y.Mock();
+			this.ocultador= Y.Mock();
+			this.imagem= Y.Mock();
+			this.jogo= new JogoDaForca(this.gerador, this.ocultador, this.imagem);
+		},
+		
+		tearDown: function() {
+			Y.Mock.verify(this.gerador);
+			Y.Mock.verify(this.ocultador);
+			Y.Mock.verify(this.imagem);
+		},
+		
 		testDeveIniciarUmNovoJogo: function() {
-			gerador= Y.Mock();
-			ocultador= Y.Mock();
-			imagem= Y.Mock();
-
-			Y.Mock.expect(gerador, {
+			Y.Mock.expect(this.gerador, {
 				method: 'meDeUmaPalavra',
 				returns: 'DWIGHT'                            
 			});
 			
-			Y.Mock.expect(ocultador, {
+			Y.Mock.expect(this.ocultador, {
 				method: 'ocultar',
 				args: ['DWIGHT']
 			});
 			
-			Y.Mock.expect(imagem, {
+			Y.Mock.expect(this.imagem, {
 				method: 'exibe'
 			});
 			
-			jogo= new JogoDaForca(gerador, ocultador, imagem);
-			jogo.novo();
-			
-			Y.Mock.verify(gerador);
-			Y.Mock.verify(ocultador);
-			Y.Mock.verify(imagem);
+			this.jogo.novo();
 		},
 		
 		testPalpiteFeliz: function() {
-			gerador= Y.Mock();
-			ocultador= Y.Mock();
-			imagem= Y.Mock();
-			
-			Y.Mock.expect(ocultador, {
+			Y.Mock.expect(this.ocultador, {
 				method: 'revela',
 				args: ['W'],
 				returns: true
 			});
 			
-			Y.Mock.expect(ocultador, {
+			Y.Mock.expect(this.ocultador, {
 				method: 'revelouTudo',
 				returns: false
 			});
 			
-			jogo= new JogoDaForca(gerador, ocultador, imagem);
-			jogo.palpite('W');
-			
-			Y.Mock.verify(ocultador);
+			this.jogo.palpite('W');
 		},
 		
 		testPalpiteInfeliz: function() {
-			gerador= Y.Mock();
-			ocultador= Y.Mock();
-			imagem= Y.Mock();
-			
-			Y.Mock.expect(ocultador, {
+			Y.Mock.expect(this.ocultador, {
 				method: 'revela',
 				args: ['K'],
 				returns: false
 			});
 			
-			Y.Mock.expect(imagem, {
+			Y.Mock.expect(this.imagem, {
 				method: 'exibeProxima'
 			});
 			
-			jogo= new JogoDaForca(gerador, ocultador, imagem);
-			jogo.palpite('K');
-			
-			Y.Mock.verify(ocultador);
-			Y.Mock.verify(imagem);
+			this.jogo.palpite('K');
 		},
 		
 		testVitoria: function() {
-			gerador= Y.Mock();
-			ocultador= Y.Mock();
-			imagem= Y.Mock();
-			
-			Y.Mock.expect(ocultador, {
+			Y.Mock.expect(this.ocultador, {
 				method: 'revela',
 				args: ['W'],
 				returns: true
 			});
-			
-			Y.Mock.expect(ocultador, {
+
+			Y.Mock.expect(this.ocultador, {
 				method: 'revelouTudo',
 				returns: true
 			});
-			
-			jogo= new JogoDaForca(gerador, ocultador, imagem);
-			jogo.palpite('W');
-			
-			Y.Mock.verify(ocultador);
+
+			this.jogo.palpite('W');
 		},
 		
 		testDerrota: function() {
-			gerador= Y.Mock();
-			ocultador= Y.Mock();
-			imagem= Y.Mock();
-
-			Y.Mock.expect(gerador, {
+			Y.Mock.expect(this.gerador, {
 				method: 'meDeUmaPalavra',
 				returns: 'DWIGHT'                            
 			});
 			
-			Y.Mock.expect(ocultador, {
+			Y.Mock.expect(this.ocultador, {
 				method: 'ocultar',
 				args: ['DWIGHT']
 			});
 			
-			Y.Mock.expect(imagem, {
+			Y.Mock.expect(this.imagem, {
 				method: 'exibe'
 			});
 			
-			Y.Mock.expect(ocultador, {
+			Y.Mock.expect(this.ocultador, {
 				method: 'revela',
 				args: [Y.Mock.Value.String],
 				returns: false,
 				callCount: 6
 			});
 			
-			Y.Mock.expect(imagem, {
+			Y.Mock.expect(this.imagem, {
 				method: 'exibeProxima',
 				callCount: 6
 			});
 			
-			jogo= new JogoDaForca(gerador, ocultador, imagem);
-			jogo.novo();
-			jogo.palpite('K');
-			jogo.palpite('Z');
-			jogo.palpite('Y');
-			jogo.palpite('Q');
-			jogo.palpite('U');
-			jogo.palpite('B');
+			this.jogo.novo();
+			for(i = 0; i < 6; i++)
+				this.jogo.palpite('X');
+		},
+		
+		testPalpiteNaoPodeTerEfeitoAposVitoria: function() {
+			Y.Mock.expect(this.ocultador, {
+				method: 'revela',
+				args: ['W'],
+				returns: true,
+				callCount: 1
+			});
 			
-			Y.Mock.verify(ocultador);
-			Y.Mock.verify(imagem);
+			Y.Mock.expect(this.ocultador, {
+				method: 'revelouTudo',
+				returns: true,
+				callCount: 1
+			});
+			
+			this.jogo.palpite('W');
+			this.jogo.palpite('V');
+		},
+		
+		testPalpiteNaoPodeTerEfeitoAposDerrota: function() {
+			Y.Mock.expect(this.gerador, {
+				method: 'meDeUmaPalavra',
+				returns: 'DWIGHT'                            
+			});
+			
+			Y.Mock.expect(this.ocultador, {
+				method: 'ocultar',
+				args: ['DWIGHT']
+			});
+			
+			Y.Mock.expect(this.imagem, {
+				method: 'exibe'
+			});
+			
+			Y.Mock.expect(this.ocultador, {
+				method: 'revela',
+				args: [Y.Mock.Value.String],
+				returns: false,
+				callCount: 6
+			});
+			
+			Y.Mock.expect(this.imagem, {
+				method: 'exibeProxima',
+				callCount: 6
+			});
+			
+			this.jogo.novo();
+			for(i = 0; i < 7; i++)
+				this.jogo.palpite('X');
 		}
 	});	
 	

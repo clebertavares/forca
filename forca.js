@@ -1,9 +1,6 @@
 //jogo da forca
 //to-do: 
-//desabilitar letras ja clicadas pra impedir progresso da forca (algum css)
-//dasabilitar letras apos vitoria ou derrota
-//painel de status: chances, vitoria, derrota, etc. (tirar os alerts toscos!)
-//'novo jogo' de botao para link
+//painel de status: chances, vitoria, derrota (qual era a palavra), etc. (tirar os alerts toscos!)
 //fases: niveis de dificuldade por numero de letras
 //categorias (coisas nerds)
 
@@ -12,26 +9,39 @@ var JogoDaForca= function(_gerador, _ocultador, _imagem) {
 	var ocultador= _ocultador;
 	var imagem= _imagem;
 	var chances;
+	var acabou;
 	
 	this.novo= function() {
+		mostrarAreaDoJogo();
 		palavra= gerador.meDeUmaPalavra();
 		ocultador.ocultar(palavra);
 		chances= 6;
+		acabou= false;
 		imagem.exibe();
 	};
 	
 	this.palpite= function(letra) {
+		if(acabou)
+			return;
 		if(ocultador.revela(letra)) {
-			if(ocultador.revelouTudo())
-				alert('ganhou');	
+			if(ocultador.revelouTudo()) {
+				acabou= true;
+				alert('ganhou');
+			}
 		}			
 		else {
 			imagem.exibeProxima();
 			chances--;
-			if(chances == 0)
+			if(chances == 0) {
+				acabou= true;
 				alert('perdeu');
+			}
 		}			
 	};
+	
+	var mostrarAreaDoJogo= function() {
+		document.getElementById('area_do_jogo').setAttribute('style', '');
+	}
 };
 
 var Gerador= function() {
@@ -62,14 +72,14 @@ var Imagem= function() {
 
 var Ocultador= function() {
 	var palavra;
-	var visivel;
+	var palavraOculta;
 	
 	this.ocultar= function(_palavra) {
 		palavra= _palavra;
-		visivel= '';
+		palavraOculta= '';
 		i= 0;
 		while(i++ < palavra.length)
-			visivel+='_';
+			palavraOculta+='_';
 		atualiza();	
 	};
 	
@@ -78,18 +88,18 @@ var Ocultador= function() {
 			return false;
 			
 		i= palavra.indexOf(letra);
-		chars= visivel.split('');
+		chars= palavraOculta.split('');
 		while(i != -1) {
 			chars[i] = palavra.charAt(i);
 			i= palavra.indexOf(letra, i+1);
 		}
-		visivel= chars.join('');
+		palavraOculta= chars.join('');
 		atualiza();
 		return true;
 	};
 	
 	this.revelouTudo= function() {
-		return visivel.indexOf('_') == -1;
+		return palavraOculta.indexOf('_') == -1;
 	};
 	
 	var tem= function(letra) {
@@ -97,7 +107,7 @@ var Ocultador= function() {
 	};
 	
 	var atualiza= function() {
-		document.getElementById('visivel').innerHTML= visivel;
+		document.getElementById('palavra_oculta').innerHTML= palavraOculta;
 	};
 };
 

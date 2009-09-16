@@ -8,52 +8,50 @@
 	<script src="forca.js"></script>
     <h1>Jogo da Forca</h1>
 	<p>
-		<input type="button" value="novo jogo" onclick="jogo.novo();">
+		<a href="javascript:void(0);" onclick="jogo.novo();">novo jogo</a>
 	</p>
-	<p>
-		<img id="imagem" src="" />
-	</p>
-    <div id="main">
+    <div id="area_do_jogo" style="display:none;">
 		<p>
-			Palavra: <span id="visivel"></span>
+			Palavra: <span id="palavra_oculta"></span>
 		</p>
-		<form id="form">
-			<table>
-				<tr>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('A');">A</a></td> 
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('B');">B</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('C');">C</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('D');">D</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('E');">E</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('F');">F</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('G');">G</a></td>
-				</tr>
-				<tr>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('H');">H</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('I');">I</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('J');">J</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('K');">K</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('L');">L</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('M');">M</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('N');">N</a></td>
-				</tr>
-				<tr>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('O');">O</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('P');">P</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('Q');">Q</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('R');">R</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('S');">S</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('T');">T</a></td>
-				</tr>
-				<tr>					
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('U');">U</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('V');">V</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('W');">W</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('X');">X</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('Y');">Y</a></td>
-					<td><a href="javascript:void(0);" onclick="jogo.palpite('Z');">Z</a></td>
-				</tr>
-			</table>
-    	</form>
+		<p>
+			<img id="imagem" src="" />
+		</p>
+		<table id="letas">
+			<tr>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('A');">A</a></td> 
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('B');">B</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('C');">C</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('D');">D</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('E');">E</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('F');">F</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('G');">G</a></td>
+			</tr>
+			<tr>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('H');">H</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('I');">I</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('J');">J</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('K');">K</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('L');">L</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('M');">M</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('N');">N</a></td>
+			</tr>
+			<tr>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('O');">O</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('P');">P</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('Q');">Q</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('R');">R</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('S');">S</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('T');">T</a></td>
+			</tr>
+			<tr>					
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('U');">U</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('V');">V</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('W');">W</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('X');">X</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('Y');">Y</a></td>
+				<td><a href="javascript:void(0);" onclick="jogo.palpite('Z');">Z</a></td>
+			</tr>
+		</table>
 	</div>
 </body>
